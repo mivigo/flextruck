@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Deliveries List!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>List of Deliveries!</h1>
+        <a href="{{ path('delivery_add') }}" class="btn btn-success">Create Delivery</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Client Name</th>
+                <th scope="col">Client Address</th>
+                <th scope="col">Delivery Time</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+                <th scope="col">Route</th>
+                <th scope="col">Done?</th>
+                <th scope="col"></th>
+                <th scope="col">Actions</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for delivery in deliveries %}
+                <tr>
+                    <th scope="row">{{ delivery.id }}</th>
+                    <td>{{ delivery.clientName }}</td>
+                    <td>{{ delivery.clientAddress }}</td>
+                    <td>{{ delivery.deliveryTime|date('F jS \\a\\t g:ia') }}</td>
+                    <td>{{ delivery.latitude }}</td>
+                    <td>{{ delivery.longtitude }}</td>
+                    <td>{% if delivery.route %}{{ delivery.route.getId() }}{% else %}---{% endif %}</td>
+                    <td>{% if delivery.done %}Yes{% else %}No{% endif %}</td>
+                    <td>
+                        <a class="btn btn-info" href="{{ path('delivery_view', {'delivery': delivery.id }) }}">View</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ path('delivery_update', {'delivery': delivery.id }) }}">Edit</a>
+                    </td>
+                    <td>
+                        <a onclick="if (!confirm('Do you really want to remove this item?')) return false;"
+                           href="{{ path('delivery_delete', {'delivery': delivery.id }) }}" class="confirm-delete btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Routes List!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>List of Routes!</h1>
+        <a href="{{ path('route_add') }}" class="btn btn-success">Create Route</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Route Title</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
+                <th scope="col">Truck ID</th>
+                <th scope="col"></th>
+                <th scope="col">Actions</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for route in routes %}
+                <tr>
+                    <th scope="row">{{ route.id }}</th>
+                    <td>{{ route.routeTitle }}</td>
+                    <td>{{ route.startTime|date('F jS \\a\\t g:ia') }}</td>
+                    <td>{{ route.endTime|date('F jS \\a\\t g:ia') }}</td>
+                    <td>{% if route.truck %}{{ route.truck.getId() }}{% else %}---{% endif %}</td>
+                    <td>
+                        <a class="btn btn-info" href="{{ path('route_view', {'route': route.id }) }}">View</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ path('route_update', {'route': route.id }) }}">Edit</a>
+                    </td>
+                    <td>
+                        <a onclick="if (!confirm('Do you really want to remove this item?')) return false;"
+                           href="{{ path('route_delete', {'route': route.id }) }}" class="confirm-delete btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
